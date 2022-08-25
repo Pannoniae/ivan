@@ -1,6 +1,6 @@
 name: Rubel Compensation
 description: Upload your ruble balance to the new database
-title: "[RUB]: "
+title: "[RUB]: Compensation"
 labels: ["rub", "incomplete"]
 assignees:
   - petertill
