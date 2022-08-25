@@ -1,0 +1,42 @@
+name: Rubel Compensation
+description: Upload your ruble balance to the new database
+title: "[RUB]: "
+labels: ["rub", "incomplete"]
+assignees:
+  - petertill
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to fill out this compensation issue!
+  - type: input
+    id: contact
+    attributes:
+      label: Contact Details
+      description: How can we get in touch with you if we need more info?
+      placeholder: ex. email@example.com
+    validations:
+      required: false
+  - type: number
+    id: rubel
+    attributes:
+      label: How much rubel did you have?
+      description: How many rubles were in your account?
+    validations:
+      required: true
+  - type: textarea
+    id: discordid
+    attributes:
+      label: Discord user id
+      description: Please paste here your discord user id!
+      placeholder: ex. 76123657631
+    validations:
+      required: true
+  - type: checkboxes
+    id: terms
+    attributes:
+      label: Rules of MKB
+      description: By submitting this issue, you agree to follow our Rules and Guidelines
+      options:
+        - label: I agree to follow MKB's rules
+          required: true
