@@ -17,11 +17,12 @@ body:
       placeholder: ex. email@example.com
     validations:
       required: false
-  - type: number
+  - type: input
     id: rubel
     attributes:
       label: How much rubel did you have?
       description: How many rubles were in your account?
+      placeholder: ex. 23.000 
     validations:
       required: true
   - type: textarea
