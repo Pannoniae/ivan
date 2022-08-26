@@ -31,5 +31,5 @@ HC: High Command
 * Give yourself ruble - `$addrub <összeg>`
 
 ## Contributors
-* ![petertill](https://avatars.githubusercontent.com/u/110157961?v=4)
+* ![petertill](https://avatars.githubusercontent.com/u/110157961?v=4 =250x250)
 
