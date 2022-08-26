@@ -181,6 +181,16 @@ async def mondd(ctx, *args):
 	await ctx.send(' '.join(args), tts=True)
 
 
+@bot.command(pass_context=True)
+@commands.has_any_role('Vezérkar')
+async def addrub(ctx, amount):
+	author = save.createUser(ctx.author.id)
+	author = save.restore(ctx.author.id)
+	author['smackers'] += int(amount)
+	save.save(author)
+	await ctx.send("Sikeressen hozzáadtál " + str(amount) + " rubelt a fiókodhoz!")
+
+
 
 @bot.command()
 async def fizetés(ctx, amount, ping:discord.Member):
