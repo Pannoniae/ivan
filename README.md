@@ -32,6 +32,6 @@ HC: High Command
 
 ## Contributors
 <a href="https://github.com/petertill">
-<img src="https://avatars.githubusercontent.com/u/110157961?v=4" data-canonical-src="https://avatars.githubusercontent.com/u/110157961?v=4" width="200" height="200" border-radius="100%" />
+<img src="https://avatars.githubusercontent.com/u/110157961?v=4" data-canonical-src="https://avatars.githubusercontent.com/u/110157961?v=4" width="100" height="100" /><b>petertill</b>
   </a>
 
