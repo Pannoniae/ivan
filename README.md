@@ -38,7 +38,7 @@ Feel free to add your name to the contributors if you have somehow contributed t
     <td align="center">
       <a href="https://github.com/petertill">
         <img src="https://avatars.githubusercontent.com/u/110157961?v=4?s=100" width="100px;" alt=""/><br/>
-        <sub><b>Peter Till</b></sub>
+        <sub><b>Peter Till</b></sub><br>
       </a>
       Maintainer
     </td>
