@@ -1,6 +1,12 @@
 # Comrade Ivan Discord Bot
 
-This bot makes [Hungarian Communist Block](https://www.google.com) more interactive with work, shop, trade and governance features. Please note that it is just a roleplay server & bot. Since the server's language is Hungarian, the bot "speaks" hungarian. We will try to add more languages soon.
+This bot makes [Hungarian Communist Block](https://www.google.com) more interactive with work, shop, trade and governance features. Please note that it is just a communist roleplay server & bot. Since the server's language is Hungarian, the bot "speaks" hungarian. We will try to add more languages soon.
+
+## Meaning
+Since everything has to be translated from Hungarian, it is necessary to shorten a few things. Here you can see some abbreviations that we use in this documentation.
+
+SSD: State Security Department
+HC: High Command
 
 ## Command list
 
@@ -13,7 +19,16 @@ This bot makes [Hungarian Communist Block](https://www.google.com) more interact
 * Ruble amount - `$rubel`
 * Shop - `$bolt`
 * Gayrate - `$gayrate <ping>`
-* Report to State Security Department - `$jelentés <ping> <Jelentés oka>`
+* Report to SSD - `$jelentés <ping> <Jelentés oka>`
 * Send ruble - `$fizetés <pénzösszeg> <ping, akinek küldöd>`
 * Report bug - `$bug <hiba leírása>` (with this you can report a server or bot problem to the developer)
 * Taking out a loan - `$hitel <összeg>`
+
+**SSD, HC can use:**
+* Send to prison - `$börtön <ping> <ok>`
+
+**Only HC can use:**
+* Give yourself ruble - `$addrub <összeg>`
+
+## Screenshots
+
