@@ -44,3 +44,5 @@ Feel free to add your name to the contributors if you have somehow contributed t
     </td>
   </tr>
 
+## License
+
