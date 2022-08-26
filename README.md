@@ -46,4 +46,4 @@ Feel free to add your name to the contributors if you have somehow contributed t
 </table>
 
 ## License
-
+This project uses Apache license v2. You can view the license [here](https://github.com/petertill/ivan/blob/main/LICENSE).
