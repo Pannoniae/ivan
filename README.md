@@ -32,11 +32,8 @@ HC: High Command
 
 ## Contributors
 
-<a href="https://github.com/petertill" style="display: inline-block;">
-<img src="https://avatars.githubusercontent.com/u/110157961?v=4" data-canonical-src="https://avatars.githubusercontent.com/u/110157961?v=4" width="100" height="100" /><br><b>petertill</b>
-  </a>
- 
- 
-
-<img src="https://avatars.githubusercontent.com/u/110157961?v=4" data-canonical-src="https://avatars.githubusercontent.com/u/110157961?v=4" width="100" height="100" />  |  <b>petertill</b>
+<table>
+  <tr>
+    <td align="center"><a href="https://github.com/petertill"><img src="https://avatars.githubusercontent.com/u/110157961?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Kent C. Dodds</b></sub></a></td>
+  </tr>
 
