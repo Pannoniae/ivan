@@ -1,6 +1,6 @@
 # Comrade Ivan Discord Bot
 
-This bot makes [Hungarian Communist Block](https://www.google.com) more interactive with work, shop, trade and governance features. **Please note that this is not a real life politics/religion thing and is just for communist soviet roleplay/fun.** Since the server's language is Hungarian, the bot "speaks" hungarian. We will try to add more languages soon.
+This bot makes [Hungarian Communist Block](https://www.google.com) more interactive with work, shop, trade and governance features. **Please note that this is not a real life politics/religion/finance thing and is just for communist soviet roleplay/fun.** Since the server's language is Hungarian, the bot "speaks" hungarian. We will try to add more languages soon.
 
 ## Meaning
 Since everything has to be translated from Hungarian, it is necessary to shorten a few things. Here you can see some abbreviations that we use in this documentation.
