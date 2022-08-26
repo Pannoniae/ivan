@@ -30,5 +30,6 @@ HC: High Command
 **Only HC can use:**
 * Give yourself ruble - `$addrub <összeg>`
 
-## Screenshots
+## Contributors
+* ![petertill](https://avatars.githubusercontent.com/u/110157961?v=4)
 
