@@ -31,9 +31,15 @@ HC: High Command
 * Give yourself ruble - `$addrub <összeg>`
 
 ## Contributors
+Feel free to add your name to the contributors if you have somehow contributed to this software.
 
 <table>
   <tr>
-    <td align="center"><a href="https://github.com/petertill"><img src="https://avatars.githubusercontent.com/u/110157961?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Kent C. Dodds</b></sub></a></td>
+    <td align="center">
+      <a href="https://github.com/petertill">
+        <img src="https://avatars.githubusercontent.com/u/110157961?v=4?s=100" width="100px;" alt=""/><br/>
+        <sub><b>Peter Till</b></sub>
+      </a>
+    </td>
   </tr>
 
