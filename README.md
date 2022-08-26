@@ -31,7 +31,13 @@ HC: High Command
 * Give yourself ruble - `$addrub <összeg>`
 
 ## Contributors
-<a href="https://github.com/petertill">
-<img src="https://avatars.githubusercontent.com/u/110157961?v=4" data-canonical-src="https://avatars.githubusercontent.com/u/110157961?v=4" width="100" height="100" /><b>petertill</b>
+<a href="https://github.com/petertill" style="display: inline-block;">
+<img src="https://avatars.githubusercontent.com/u/110157961?v=4" data-canonical-src="https://avatars.githubusercontent.com/u/110157961?v=4" width="100" height="100" /><br><b>petertill</b>
+  </a>
+  <a href="https://github.com/petertill" style="display: inline-block;">
+<img src="https://avatars.githubusercontent.com/u/110157961?v=4" data-canonical-src="https://avatars.githubusercontent.com/u/110157961?v=4" width="100" height="100" /><br><b>petertill</b>
+  </a>
+  <a href="https://github.com/petertill" style="display: inline-block;">
+<img src="https://avatars.githubusercontent.com/u/110157961?v=4" data-canonical-src="https://avatars.githubusercontent.com/u/110157961?v=4" width="100" height="100" /><br><b>petertill</b>
   </a>
 
