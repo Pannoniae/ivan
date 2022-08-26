@@ -191,6 +191,21 @@ async def addrub(ctx, amount):
 	await ctx.send("Sikeressen hozzáadtál " + str(amount) + " rubelt a fiókodhoz!")
 
 
+@bot.command()
+async def hitel(ctx, amount):
+	author = save.createUser(ctx.author.id)
+	author = save.restore(ctx.author.id)
+	print(author)
+	author['hitel'] += int(amount)
+	author['smackers'] += int(amount)
+	save.save(author)
+	channel = bot.get_channel(981973830325116998)
+	embed = discord.Embed(title="Új hitel", description="Valaki hitelt vett fel.")
+	# add fields
+	embed.add_field(name=f"Felhasználó: {ctx.message.author}", value='Összeg: ' + str(int(amount)), inline=False)
+	await channel.send(embed=embed)
+	await ctx.send("Felvettél " + str(amount) + " rubel hitelt. Minden hónapban be kell fizetned a 10%-át amíg a tartozás meg nem szűnik. Be nem fizetett hitel esetén nem tudsz dolgozni illetve vásárolni a befizetésig.")
+
 
 @bot.command()
 async def fizetés(ctx, amount, ping:discord.Member):
@@ -259,7 +274,8 @@ async def help(ctx):
 	embed.add_field(name="Jelentés", value='`$jelentés <ping> <Jelentés oka>`', inline=False)
 	embed.add_field(name="Rubel küldése", value='`$fizetés <pénzösszeg> <ping, akinek küldöd>`', inline=False)
 	embed.add_field(name="Hiba jelentése", value='`$bug <hiba leírása>` ezzel vagy szerver vagy bot hibát tudsz jelenteni a fejlesztőnek', inline=False)
-	embed.add_field(name="Bot tulajdonságok", value='Fejlesztő(k): petyadev#1129 | A [GoatVids](https://www.goatvids.ga/) jóvoltából')
+	embed.add_field(name="Hitel felvétele", value='`$hitel <összeg>`')
+	embed.add_field(name="Bot tulajdonságok", value='Fenntartó: petyadev#1129 | [Nyílt forráskódú projekt](https://github.com/petertill/ivan) ')
 	# then send the embed
 	await ctx.send(embed=embed)
 

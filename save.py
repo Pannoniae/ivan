@@ -6,12 +6,16 @@ client = pymongo.MongoClient(os.environ['MONGO_TOKEN'])
 
 database = client['coinsdb']['coinscollection']
 
+#database.update_many({}, {"$set": {"hitel": 0}}, upsert=False, array_filters=None)
+#print("Inserted successfully")
+
 def createUser(_id):
 	basicData = {
 		'userid' : _id,
-		'smackers' : 0,
-		'lastTime' : 0,
-		'bonusTime' : 0,
+		'hitel' : int(0),
+		'smackers' : int(0),
+		'lastTime' : int(0),
+		'bonusTime' : int(0),
 	}
 	try:
 		t = database.insert_one(basicData)
