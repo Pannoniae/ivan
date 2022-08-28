@@ -6,6 +6,7 @@ import requests
 from discord.utils import get
 from discord import Member
 import interactions
+import datetime
 
 TOKEN = os.environ['DISCORD_TOKEN']
 
@@ -28,6 +29,21 @@ bot.remove_command('help')
 sad_words = ['cry', 'unhappy', 'crying']
 rick_words = ['bump', 'secret', 'pprog']
 rick_stuff = ['never gunna give you up', 'never gunna let you down', "never gonna run around and desert you", "never gonna make you cry", "never gonna say goodbye", "never gonna tell a lie and hurt you"]
+
+def billCash(id):
+	#datetime.datetime.today().day
+	currentday = datetime.datetime.today().day
+	user = save.createUser(id)
+	user = save.restore(id)
+	bill = user['hitel']
+
+	if currentday == 27:
+		if bill > 0:
+			return bill * 0.1
+		else:
+			return 0
+	else:
+		return 0
 
 
 ###############################
@@ -192,45 +208,59 @@ async def addrub(ctx, amount):
 
 
 @bot.command()
-async def hitel(ctx, amount):
-	author = save.createUser(ctx.author.id)
-	author = save.restore(ctx.author.id)
-	print(author)
-	author['hitel'] += int(amount)
-	author['smackers'] += int(amount)
-	save.save(author)
-	channel = bot.get_channel(981973830325116998)
-	embed = discord.Embed(title="Új hitel", description="Valaki hitelt vett fel.")
-	# add fields
-	embed.add_field(name=f"Felhasználó: {ctx.message.author}", value='Összeg: ' + str(int(amount)), inline=False)
-	await channel.send(embed=embed)
-	await ctx.send("Felvettél " + str(amount) + " rubel hitelt. Minden hónapban be kell fizetned a 10%-át amíg a tartozás meg nem szűnik. Be nem fizetett hitel esetén nem tudsz dolgozni illetve vásárolni a befizetésig.")
+async def hitel(ctx, amount=0):
+	author = ctx.message.author
+	if billCash(ctx.author.id) == 0:
+		author = save.createUser(ctx.author.id)
+		author = save.restore(ctx.author.id)
+		print(author)
+		author['hitel'] += int(amount)
+		author['smackers'] += int(amount)
+		save.save(author)
+		channel = bot.get_channel(981973830325116998)
+		embed = discord.Embed(title="Új hitel", description="Valaki hitelt vett fel.")
+		# add fields
+		embed.add_field(name=f"Felhasználó: {ctx.message.author}", value='Összeg: ' + str(int(amount)), inline=False)
+		await channel.send(embed=embed)
+		await ctx.send("Felvettél " + str(amount) + " rubel hitelt. Minden hónapban be kell fizetned a 10%-át amíg a tartozás meg nem szűnik. Be nem fizetett hitel esetén nem tudsz dolgozni illetve vásárolni a befizetésig.")
+	else:
+		user = save.createUser(ctx.author.id)
+		user = save.restore(ctx.author.id)
+		szazalek = user['hitel'] * 0.1
+		user['smackers'] -= szazalek
+		print(user['hitel'])
+		user['hitel'] -= szazalek
+		save.save(user)
+		await ctx.send("A tartozásod 10%-a kifizetve erre a hónapra!")
 
 
 @bot.command()
 async def fizetés(ctx, amount, ping:discord.Member):
-	for user_mentioned in ctx.message.mentions:
-		pingid = user_mentioned.id
-		pingmention = user_mentioned
+	if billCash(ctx.author.id) == 0:
+		for user_mentioned in ctx.message.mentions:
+			pingid = user_mentioned.id
+			pingmention = user_mentioned
 		
-	payer = save.createUser(ctx.author.id)
-	payer = save.restore(ctx.author.id)
-	ping = save.createUser(pingid)
-	ping = save.restore(pingid)
+		payer = save.createUser(ctx.author.id)
+		payer = save.restore(ctx.author.id)
+		ping = save.createUser(pingid)
+		ping = save.restore(pingid)
 
-	if payer['smackers'] >= abs(int(amount)):
-		payer['smackers'] -= abs(int(amount))
-		ping['smackers'] += abs(int(amount))
-		save.save(payer) # save the changes
-		save.save(ping)
-		await ctx.send("Sikeres tranzakció!")
-		channel = bot.get_channel(981973830325116998)
-		embed = discord.Embed(title="Új banki utalás", description="Típus: pénzküldés")
-		# add fields
-		embed.add_field(name=f"Fizető: {ctx.author} -> {pingmention}", value='Összeg: ' + str(abs(int(amount))), inline=False)
-		await channel.send(embed=embed)
+		if payer['smackers'] >= abs(int(amount)):
+			payer['smackers'] -= abs(int(amount))
+			ping['smackers'] += abs(int(amount))
+			save.save(payer) # save the changes
+			save.save(ping)
+			await ctx.send("Sikeres tranzakció!")
+			channel = bot.get_channel(981973830325116998)
+			embed = discord.Embed(title="Új banki utalás", description="Típus: pénzküldés")
+			# add fields
+			embed.add_field(name=f"Fizető: {ctx.author} -> {pingmention}", value='Összeg: ' + str(abs(int(amount))), inline=False)
+			await channel.send(embed=embed)
+		else:
+			await ctx.send("Nincs elég rubeled a tranzakcióhoz!")
 	else:
-		await ctx.send("Nincs elég rubeled a tranzakcióhoz!")
+		await ctx.send("Nem fizetted ki a hitelt!")
 	
 
 
@@ -286,62 +316,65 @@ async def help(ctx):
 
 @bot.command()
 async def munka(ctx):
-	try:
-		avh = discord.utils.get(ctx.guild.roles, name="Állam Védelmi Hatóság") # Get the role
-		katona = discord.utils.get(ctx.guild.roles, name="Katona")
-		
-	except:
-		await ctx.send("Valami váratlan hiba történt. Ez lehet azért, mert privátban akartál dolgozni, ahol nincsenek rangok. Ha a probléma a szerveren is előfordul, írj Petru elvtársnak!")
-	if save.checkExist(ctx.author.id):
-		pass
-	else:
-		user = save.createUser(ctx.author.id)
-	user = save.restore(ctx.author.id)
-	currentTime = time.time()
-	lastTime = int(user['lastTime'])
-	if lastTime+30 <= currentTime:
-		random_szam = random.randint(20, 70)
-		if avh in ctx.author.roles:
-			szazalek = random_szam * 2
-			user['smackers'] += szazalek
-			user['lastTime'] = time.time()
-			save.save(user)
-			await ctx.send("💵 " + str(szazalek) +" Rubelt szereztél! 100%-os emeléssel")
-		elif katona in ctx.author.roles:
-			szazalek = random_szam * 2
-			user['smackers'] += szazalek
-			user['lastTime'] = time.time()
-			save.save(user)
-			await ctx.send("💵 " + str(szazalek) +" Rubelt szereztél! 100%-os emeléssel")
+	if billCash(ctx.author.id) == 0:
+		try:
+			avh = discord.utils.get(ctx.guild.roles, name="Állam Védelmi Hatóság") # Get the role
+			katona = discord.utils.get(ctx.guild.roles, name="Katona")
+		except:
+			await ctx.send("Valami váratlan hiba történt. Ez lehet azért, mert privátban akartál dolgozni, ahol nincsenek rangok. Ha a probléma a szerveren is előfordul, írj Petru elvtársnak!")
+		if save.checkExist(ctx.author.id):
+			pass
 		else:
-			user['smackers'] += random_szam
-			user['lastTime'] = time.time()
-			save.save(user) # save the changes
-			await ctx.send("💵 " + str(random_szam) +" Rubelt szereztél!")
+			user = save.createUser(ctx.author.id)
+		user = save.restore(ctx.author.id)
+		currentTime = time.time()
+		lastTime = int(user['lastTime'])
+		if lastTime+30 <= currentTime:
+			random_szam = random.randint(20, 70)
+			if avh in ctx.author.roles:
+				szazalek = random_szam * 2
+				user['smackers'] += szazalek
+				user['lastTime'] = time.time()
+				save.save(user)
+				await ctx.send("💵 " + str(szazalek) +" Rubelt szereztél! 100%-os emeléssel")
+			elif katona in ctx.author.roles:
+				szazalek = random_szam * 2
+				user['smackers'] += szazalek
+				user['lastTime'] = time.time()
+				save.save(user)
+				await ctx.send("💵 " + str(szazalek) +" Rubelt szereztél! 100%-os emeléssel")
+			else:
+				user['smackers'] += random_szam
+				user['lastTime'] = time.time()
+				save.save(user) # save the changes
+				await ctx.send("💵 " + str(random_szam) +" Rubelt szereztél!")
+		else:
+			await ctx.send(f"{ctx.author.mention}, várnod kell még {str(int(30-(currentTime-lastTime)))} másodpercet")
 	else:
-		await ctx.send(f"{ctx.author.mention}, várnod kell még {str(int(30-(currentTime-lastTime)))} másodpercet")
-
+		await ctx.send("Nem fizetted ki a hitelt!")
 
 
 @bot.command()
 async def napi(ctx):
-	if save.checkExist(ctx.author.id):
-		pass
-	else:
-		user = save.createUser(ctx.author.id)
-	print("Working")
-	user = save.restore(ctx.author.id)
+	if billCash(ctx.author.id) == 0:
+		if save.checkExist(ctx.author.id):
+			pass
+		else:
+			user = save.createUser(ctx.author.id)
+		print("Working")
+		user = save.restore(ctx.author.id)
 
-	currentTime = time.time()
-	lastTime = int(user['bonusTime'])
-	if lastTime+43200 <= currentTime:
-		user['smackers'] += 1000
-		user['bonusTime'] = time.time()
-		save.save(user) # save the changes
-		await ctx.send("💵 1000 Rubelt szereztél!")
+		currentTime = time.time()
+		lastTime = int(user['bonusTime'])
+		if lastTime+43200 <= currentTime:
+			user['smackers'] += 1000
+			user['bonusTime'] = time.time()
+			save.save(user) # save the changes
+			await ctx.send("💵 1000 Rubelt szereztél!")
+		else:
+			await ctx.send(f"{ctx.author.mention}, várnod kell még {str(int((43200-(currentTime-lastTime)) / 60))} percet")
 	else:
-		await ctx.send(f"{ctx.author.mention}, várnod kell még {str(int((43200-(currentTime-lastTime)) / 60))} percet")
-
+		await ctx.send("Nem fizetted ki a hitelt!")
 
 @bot.command()
 async def leaderboard(ctx):
@@ -424,74 +457,77 @@ async def whois(ctx, member):
 
 @bot.command()
 async def buy(ctx, item):
-	if item.lower() == 'kőbányai':
-		user = save.restore(ctx.author.id)
-		if user['smackers'] >= 1000:
-			member = await ctx.message.guild.query_members(user_ids=[ctx.author.id])
-			member = member[0]
-			await member.add_roles(discord.utils.get(member.guild.roles, name="Igazán proli"))
-			user['smackers'] -= 1000
-			save.save(user)
-			await ctx.send("Sikeres vásárlás elvtárs!")
+	if billCash(ctx.author.id) == 0:
+		if item.lower() == 'kőbányai':
+			user = save.restore(ctx.author.id)
+			if user['smackers'] >= 1000:
+				member = await ctx.message.guild.query_members(user_ids=[ctx.author.id])
+				member = member[0]
+				await member.add_roles(discord.utils.get(member.guild.roles, name="Igazán proli"))
+				user['smackers'] -= 1000
+				save.save(user)
+				await ctx.send("Sikeres vásárlás elvtárs!")
+			else:
+				await ctx.send(f"Még {str(1000-user['smackers'])} rubel kell, hogy megvehesd a(z) 'Kőbányai'-t!")
+		if item.lower() == 'g-blyat':
+			user = save.restore(ctx.author.id)
+			if user['smackers'] >= 6000:
+				member = await ctx.message.guild.query_members(user_ids=[ctx.author.id])
+				member = member[0]
+				await member.add_roles(discord.utils.get(member.guild.roles, name="Google Blyat felhasználó"))
+				user['smackers'] -= 6000
+				save.save(user)
+				await ctx.send("Sikeres vásárlás elvtárs!")
+			else:
+				await ctx.send(f"Még {str(6000-user['smackers'])} rubel kell, hogy megvehesd a(z) 'Google Blyat'-t!")
+		if item.lower() == 'trabant':
+			user = save.restore(ctx.author.id)
+			if user['smackers'] >= 10000:
+				member = await ctx.message.guild.query_members(user_ids=[ctx.author.id])
+				member = member[0]
+				await member.add_roles(discord.utils.get(member.guild.roles, name="Trabanton szállni..."))
+				user['smackers'] -= 10000
+				save.save(user)
+				await ctx.send("Sikeres vásárlás elvtárs!")
+			else:
+				await ctx.send(f"Még {str(10000-user['smackers'])} rubel kell, hogy megvehesd a(z) 'Trabant'-t!")
+		if item.lower() == 'ikarus':
+			user = save.restore(ctx.author.id)
+			if user['smackers'] >= 20000:
+				member = await ctx.message.guild.query_members(user_ids=[ctx.author.id])
+				member = member[0]
+				await member.add_roles(discord.utils.get(member.guild.roles, name="Buszvezető"))
+				user['smackers'] -= 20000
+				save.save(user)
+				await ctx.send("Sikeres vásárlás elvtárs!")
+			else:
+				await ctx.send(f"Még {str(20000-user['smackers'])} rubel kell, hogy megvehesd a(z) 'Ikarus busz'-t!")
+		if item.lower() == 'lenin-szobor':
+			user = save.restore(ctx.author.id)
+			if user['smackers'] >= 15000:
+				member = await ctx.message.guild.query_members(user_ids=[ctx.author.id])
+				member = member[0]
+				await member.add_roles(discord.utils.get(member.guild.roles, name="Hithű kommunista"))
+				user['smackers'] -= 15000
+				save.save(user)
+				await ctx.send("Sikeres vásárlás elvtárs!")
+			else:
+				await ctx.send(f"Még {str(15000-user['smackers'])} rubel kell, hogy megvehesd a(z) 'Lenin szobor (2.5 méter)'-t!")
+		if item.lower() == 'talicska':
+			user = save.restore(ctx.author.id)
+			if user['smackers'] >= 5000:
+				member = await ctx.message.guild.query_members(user_ids=[ctx.author.id])
+				member = member[0]
+				await member.add_roles(discord.utils.get(member.guild.roles, name="Kulák"))
+				user['smackers'] -= 5000
+				save.save(user)
+				await ctx.send("Sikeres vásárlás elvtárs!")
+			else:
+				await ctx.send(f"Még {str(5000-user['smackers'])} rubel kell, hogy megvehesd a(z) 'talicska'-t!")
 		else:
-			await ctx.send(f"Még {str(1000-user['smackers'])} rubel kell, hogy megvehesd a(z) 'Kőbányai'-t!")
-	if item.lower() == 'g-blyat':
-		user = save.restore(ctx.author.id)
-		if user['smackers'] >= 6000:
-			member = await ctx.message.guild.query_members(user_ids=[ctx.author.id])
-			member = member[0]
-			await member.add_roles(discord.utils.get(member.guild.roles, name="Google Blyat felhasználó"))
-			user['smackers'] -= 6000
-			save.save(user)
-			await ctx.send("Sikeres vásárlás elvtárs!")
-		else:
-			await ctx.send(f"Még {str(6000-user['smackers'])} rubel kell, hogy megvehesd a(z) 'Google Blyat'-t!")
-	if item.lower() == 'trabant':
-		user = save.restore(ctx.author.id)
-		if user['smackers'] >= 10000:
-			member = await ctx.message.guild.query_members(user_ids=[ctx.author.id])
-			member = member[0]
-			await member.add_roles(discord.utils.get(member.guild.roles, name="Trabanton szállni..."))
-			user['smackers'] -= 10000
-			save.save(user)
-			await ctx.send("Sikeres vásárlás elvtárs!")
-		else:
-			await ctx.send(f"Még {str(10000-user['smackers'])} rubel kell, hogy megvehesd a(z) 'Trabant'-t!")
-	if item.lower() == 'ikarus':
-		user = save.restore(ctx.author.id)
-		if user['smackers'] >= 20000:
-			member = await ctx.message.guild.query_members(user_ids=[ctx.author.id])
-			member = member[0]
-			await member.add_roles(discord.utils.get(member.guild.roles, name="Buszvezető"))
-			user['smackers'] -= 20000
-			save.save(user)
-			await ctx.send("Sikeres vásárlás elvtárs!")
-		else:
-			await ctx.send(f"Még {str(20000-user['smackers'])} rubel kell, hogy megvehesd a(z) 'Ikarus busz'-t!")
-	if item.lower() == 'lenin-szobor':
-		user = save.restore(ctx.author.id)
-		if user['smackers'] >= 15000:
-			member = await ctx.message.guild.query_members(user_ids=[ctx.author.id])
-			member = member[0]
-			await member.add_roles(discord.utils.get(member.guild.roles, name="Hithű kommunista"))
-			user['smackers'] -= 15000
-			save.save(user)
-			await ctx.send("Sikeres vásárlás elvtárs!")
-		else:
-			await ctx.send(f"Még {str(15000-user['smackers'])} rubel kell, hogy megvehesd a(z) 'Lenin szobor (2.5 méter)'-t!")
-	if item.lower() == 'talicska':
-		user = save.restore(ctx.author.id)
-		if user['smackers'] >= 5000:
-			member = await ctx.message.guild.query_members(user_ids=[ctx.author.id])
-			member = member[0]
-			await member.add_roles(discord.utils.get(member.guild.roles, name="Kulák"))
-			user['smackers'] -= 5000
-			save.save(user)
-			await ctx.send("Sikeres vásárlás elvtárs!")
-		else:
-			await ctx.send(f"Még {str(5000-user['smackers'])} rubel kell, hogy megvehesd a(z) 'talicska'-t!")
+			pass
 	else:
-		pass
+		await ctx.send("Nem fizetted ki a hitelt!")
 
 ######################
 
