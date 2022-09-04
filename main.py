@@ -1,5 +1,5 @@
 from discord.ext import commands
-import discord, os, random, time, save, keep_alive, saveparty
+import discord, os, random, time, save, keep_alive, saveparty, sys
 import discord.utils
 import json
 import requests
@@ -283,17 +283,20 @@ async def fizetés(ctx, amount, ping:discord.Member):
 	
 
 
-@bot.command()
-async def atombomba(ctx):
-	message = await ctx.send("Üdv, Elvtárs! Szeretnél atombombát indítani a kapitalista nácik ellen?")
-	igen = '\N{THUMBS UP SIGN}'
-	nem = '\N{THUMBS DOWN SIGN}'
-	await message.add_reaction(igen)
-	await message.add_reaction(nem)
 
-
-
-	
+@bot.event
+async def on_raw_reaction_add(payload):
+	guild = bot.get_guild(payload.guild_id) # Get guild
+	member = get(guild.members, id=payload.user_id) # Get the member out of the guild
+	# The channel ID should be an integer:
+	if payload.channel_id == 978209429528936468: # Only channel where it will work
+		if str(payload.emoji) == "✅": # Your emoji
+			role = get(payload.member.guild.roles, id=978207066491588678) # Role ID
+		else:
+			role = get(guild.roles, name=payload.emoji)
+		if role is not None: # If role exists
+			await payload.member.add_roles(role)
+			await payload.member.send(f"Megkaptad a lakhatást! ({role} rang)")
 
 
 
