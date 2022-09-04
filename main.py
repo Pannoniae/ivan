@@ -534,4 +534,9 @@ async def buy(ctx, item):
 
 
 keep_alive.keep_alive()
-bot.run(TOKEN)
+try:
+	bot.run(TOKEN)
+except discord.errors.HTTPException:
+	print("\n\n\nBLOCKED BY RATE LIMITS\nRESTARTING NOW\n\n\n")
+	os.system("kill 1")
+	os.system("python restarter.py")
