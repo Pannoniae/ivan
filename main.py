@@ -5,10 +5,21 @@ import json
 import requests
 from discord.utils import get
 from discord import Member
-import interactions
 import datetime
+import interactions
+from interactions import *
+#from interactions.utils.manage_commands import *
+
 
 TOKEN = os.environ['DISCORD_TOKEN']
+
+
+slash = interactions.Client(token=TOKEN)
+
+
+
+
+
 
 prefix = "$"
 
@@ -17,7 +28,7 @@ intents.members = True
 
 bot = commands.Bot(prefix, intents=intents)
 
-#creating client
+
 
 
 
@@ -92,6 +103,14 @@ async def on_message(message):
 
 
 #### BOT BASIC COMMANDS ####
+
+@slash.command(
+    name="ping",
+    description="Pingpong",
+    scope=978204080797261854,
+)
+async def ping(ctx: interactions.CommandContext):
+    await ctx.send("Pong")
 
 @bot.command()
 async def ping(ctx):
@@ -536,6 +555,7 @@ async def buy(ctx, item):
 keep_alive.keep_alive()
 try:
 	bot.run(TOKEN)
+	slash.start()
 except discord.errors.HTTPException:
 	print("\n\n\nBLOCKED BY RATE LIMITS\nRESTARTING NOW\n\n\n")
 	os.system("kill 1")
