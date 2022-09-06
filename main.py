@@ -422,9 +422,10 @@ async def rubel(ctx):
 # boltos cuccok
 
 
-itemsname = ["Kőbányai", "Talicska", "Google Bylat asszisztens", "Trabant", "Ikarus busz", "Lenin szobra" "füves cigi" "Volga-M22]
+itemsname = ["Kőbányai", "Talicska", "Google Bylat asszisztens", "Trabant", "Ikarus busz", "Lenin szobra", "Füves cigi", "Volga-M22"]
 itemsprice = [50, 2000, 6000, 120000, 220000, 60000, 100, 160000]
-itemslower = ["kőbányai", "talicska", "g-blyat", "trabant", "ikarus", "lenin-szobor" "füves-cigi" "volga"]
+itemslower = ["kőbányai", "talicska", "g-blyat", "trabant", "ikarus", "lenin-szobor", "füves-cigi", "volga"]
+itemsrole = ["Igazán proli", "Kulák", "Google Blyat felhasználó", "Trabanton szállni...", "Buszvezető", "Hithű kommunista", "Igazán proli", "Volgatulajdonos"]
 
 
 
@@ -480,74 +481,20 @@ async def whois(ctx, member):
 @bot.command()
 async def buy(ctx, item):
 	if billCash(ctx.author.id) == 0:
-		if item.lower() == 'kőbányai':
-			user = save.restore(ctx.author.id)
-			if user['smackers'] >= 1000:
-				member = await ctx.message.guild.query_members(user_ids=[ctx.author.id])
-				member = member[0]
-				await member.add_roles(discord.utils.get(member.guild.roles, name="Igazán proli"))
-				user['smackers'] -= 1000
-				save.save(user)
-				await ctx.send("Sikeres vásárlás elvtárs!")
+		for (a, b, c, d) in zip(itemsname, itemsprice, itemslower, itemsrole):
+			if item.lower() == c:
+				user = save.restore(ctx.author.id)
+				if user['smackers'] >= b:
+					member = await ctx.message.guild.query_members(user_ids=[ctx.author.id])
+					member = member[0]
+					await member.add_roles(discord.utils.get(member.guild.roles, name=d))
+					user['smackers'] -= b
+					save.save(user)
+					await ctx.send("Sikeres vásárlás elvtárs!")
+				else:
+					await ctx.send(f"Még {str(b-user['smackers'])} rubel kell, hogy megvehesd a(z) '{a}'-t!")
 			else:
-				await ctx.send(f"Még {str(1000-user['smackers'])} rubel kell, hogy megvehesd a(z) 'Kőbányai'-t!")
-		if item.lower() == 'g-blyat':
-			user = save.restore(ctx.author.id)
-			if user['smackers'] >= 6000:
-				member = await ctx.message.guild.query_members(user_ids=[ctx.author.id])
-				member = member[0]
-				await member.add_roles(discord.utils.get(member.guild.roles, name="Google Blyat felhasználó"))
-				user['smackers'] -= 6000
-				save.save(user)
-				await ctx.send("Sikeres vásárlás elvtárs!")
-			else:
-				await ctx.send(f"Még {str(6000-user['smackers'])} rubel kell, hogy megvehesd a(z) 'Google Blyat'-t!")
-		if item.lower() == 'trabant':
-			user = save.restore(ctx.author.id)
-			if user['smackers'] >= 10000:
-				member = await ctx.message.guild.query_members(user_ids=[ctx.author.id])
-				member = member[0]
-				await member.add_roles(discord.utils.get(member.guild.roles, name="Trabanton szállni..."))
-				user['smackers'] -= 10000
-				save.save(user)
-				await ctx.send("Sikeres vásárlás elvtárs!")
-			else:
-				await ctx.send(f"Még {str(10000-user['smackers'])} rubel kell, hogy megvehesd a(z) 'Trabant'-t!")
-		if item.lower() == 'ikarus':
-			user = save.restore(ctx.author.id)
-			if user['smackers'] >= 20000:
-				member = await ctx.message.guild.query_members(user_ids=[ctx.author.id])
-				member = member[0]
-				await member.add_roles(discord.utils.get(member.guild.roles, name="Buszvezető"))
-				user['smackers'] -= 20000
-				save.save(user)
-				await ctx.send("Sikeres vásárlás elvtárs!")
-			else:
-				await ctx.send(f"Még {str(20000-user['smackers'])} rubel kell, hogy megvehesd a(z) 'Ikarus busz'-t!")
-		if item.lower() == 'lenin-szobor':
-			user = save.restore(ctx.author.id)
-			if user['smackers'] >= 15000:
-				member = await ctx.message.guild.query_members(user_ids=[ctx.author.id])
-				member = member[0]
-				await member.add_roles(discord.utils.get(member.guild.roles, name="Hithű kommunista"))
-				user['smackers'] -= 15000
-				save.save(user)
-				await ctx.send("Sikeres vásárlás elvtárs!")
-			else:
-				await ctx.send(f"Még {str(15000-user['smackers'])} rubel kell, hogy megvehesd a(z) 'Lenin szobor (2.5 méter)'-t!")
-		if item.lower() == 'talicska':
-			user = save.restore(ctx.author.id)
-			if user['smackers'] >= 5000:
-				member = await ctx.message.guild.query_members(user_ids=[ctx.author.id])
-				member = member[0]
-				await member.add_roles(discord.utils.get(member.guild.roles, name="Kulák"))
-				user['smackers'] -= 5000
-				save.save(user)
-				await ctx.send("Sikeres vásárlás elvtárs!")
-			else:
-				await ctx.send(f"Még {str(5000-user['smackers'])} rubel kell, hogy megvehesd a(z) 'talicska'-t!")
-		else:
-			pass
+				pass
 	else:
 		await ctx.send("Nem fizetted ki a hitelt!")
 
