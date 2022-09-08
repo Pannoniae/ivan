@@ -1,12 +1,15 @@
 import pymongo
 import dns
 import os
+import pickle
 
 client = pymongo.MongoClient(os.environ['MONGO_TOKEN'])
 
 database = client['coinsdb']['coinscollection']
 
-#database.update_many({}, {"$set": {"hitel": 0}}, upsert=False, array_filters=None)
+
+
+#database.update_many({}, {"$set": {"items": ["dcuser", "test"]}}, upsert=False, array_filters=None)
 #print("Inserted successfully")
 
 def createUser(_id):
@@ -16,6 +19,7 @@ def createUser(_id):
 		'smackers' : int(0),
 		'lastTime' : int(0),
 		'bonusTime' : int(0),
+		'items' : ["dcuser", "test"],
 	}
 	try:
 		t = database.insert_one(basicData)

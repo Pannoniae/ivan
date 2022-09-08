@@ -8,6 +8,7 @@ from discord import Member
 import datetime
 import interactions
 from interactions import *
+import pickle
 #from interactions.utils.manage_commands import *
 
 
@@ -351,7 +352,7 @@ async def munka(ctx):
 		user = save.restore(ctx.author.id)
 		currentTime = time.time()
 		lastTime = int(user['lastTime'])
-		if lastTime+30 <= currentTime:
+		if lastTime+30 <= currentTime or megvan(ctx.author.id, "trabant"):
 			random_szam = random.randint(20, 70)
 			if avh in ctx.author.roles:
 				szazalek = random_szam * 2
@@ -477,18 +478,32 @@ async def whois(ctx, member):
 	
   await ctx.send(embed=embed)
 
+def megvan(id, item):
+	user = save.restore(id)
+	list = user['items']
+	if item in list:
+		return 1
+	else:
+		return 0
+
 
 @bot.command()
 async def buy(ctx, item):
 	if billCash(ctx.author.id) == 0:
 		for (a, b, c, d) in zip(itemsname, itemsprice, itemslower, itemsrole):
 			if item.lower() == c:
+				#if megvan(ctx.author.id, c):
+				#	await ctx.send("Neked már meg van ez a cucc!")
 				user = save.restore(ctx.author.id)
 				if user['smackers'] >= b:
 					member = await ctx.message.guild.query_members(user_ids=[ctx.author.id])
 					member = member[0]
 					await member.add_roles(discord.utils.get(member.guild.roles, name=d))
 					user['smackers'] -= b
+					list = user['items']
+					list.append(str(c))
+					user['items'] = list
+					print(user['items'])
 					save.save(user)
 					await ctx.send("Sikeres vásárlás elvtárs!")
 				else:
