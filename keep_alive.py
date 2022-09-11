@@ -1,21 +1,22 @@
-from flask import Flask, render_template
+from flask import Flask
 from threading import Thread
+import subprocess
+import time
+import sys
 
-web = Flask('')
+app = Flask('')
 
-app = Flask(__name__)
 
-@web.route('/')
-def home():
-   return render_template('index.html')
-if __name__ == '__main__':
-   app.run()
+
+@app.route('/')
+def main():
+  return 'Bot works!'
+
+
 
 def run():
-  web.run(host='0.0.0.0',port=8080)
+  app.run(host="0.0.0.0", port=8000)
 
 def keep_alive():
-   run_thread = Thread(target=run)
-   run_thread.start()
-
-
+  server = Thread(target=run)
+  server.start()

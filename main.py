@@ -1,4 +1,5 @@
 from discord.ext import commands
+from discord.ext import *
 import discord, os, random, time, save, keep_alive, saveparty, sys
 import discord.utils
 import json
@@ -12,10 +13,12 @@ import pickle
 #from interactions.utils.manage_commands import *
 
 
+
+
 TOKEN = os.environ['DISCORD_TOKEN']
 
 
-slash = interactions.Client(token=TOKEN)
+#slash = interactions.Client(token=TOKEN)
 
 
 
@@ -32,8 +35,9 @@ bot = commands.Bot(prefix, intents=intents)
 
 
 
-
 bot.remove_command('help')
+
+
 
 
 #### LISTS OF BORING STUFF ####
@@ -105,13 +109,13 @@ async def on_message(message):
 
 #### BOT BASIC COMMANDS ####
 
-@slash.command(
-    name="ping",
-    description="Pingpong",
-    scope=978204080797261854,
-)
-async def ping(ctx: interactions.CommandContext):
-    await ctx.send("Pong")
+#@slash.command(
+#    name="ping",
+#    description="Pingpong",
+#    scope=978204080797261854,
+#)
+#async def ping(ctx: interactions.CommandContext):
+#    await ctx.send("Pong")
 
 @bot.command()
 async def ping(ctx):
@@ -126,6 +130,21 @@ async def bug(ctx, *args):
 	embed.add_field(name="Hibaleírás", value=' '.join(args), inline=False)
 	await ctx.send("Sikeres hibajelentés!")
 	await dev.send(embed=embed)
+
+@bot.command()
+async def inventory(ctx):
+	user = save.restore(ctx.author.id)
+	inventory = user['items']
+	embed = discord.Embed(title = str(ctx.message.author) + " cuccai", description="Itt látszanak a boltban megvásárolt dolgok.", color=0xff0000)
+
+	for item in inventory:
+		for (a, b, c) in zip(itemslower, itemsprice, itemsname):
+			if item == a:
+				embed.add_field(name=c, value="Ár: " + str(b), inline=False)
+	await ctx.send(embed=embed)
+		
+				
+			
 
 
 #párt alapítása
@@ -359,18 +378,21 @@ async def munka(ctx):
 				user['smackers'] += szazalek
 				user['lastTime'] = time.time()
 				save.save(user)
-				await ctx.send("💵 " + str(szazalek) +" Rubelt szereztél! 100%-os emeléssel")
+				embed = discord.Embed(title = "💵 " + str(szazalek) + " Rubelt szereztél! 100%-os emeléssel", color=0x59ff00)
+				await ctx.send(embed=embed)
 			elif katona in ctx.author.roles:
 				szazalek = random_szam * 2
 				user['smackers'] += szazalek
 				user['lastTime'] = time.time()
 				save.save(user)
-				await ctx.send("💵 " + str(szazalek) +" Rubelt szereztél! 100%-os emeléssel")
+				embed = discord.Embed(title = "💵 " + str(szazalek) + " Rubelt szereztél! 100%-os emeléssel", color=0x59ff00)
+				await ctx.send(embed=embed)
 			else:
 				user['smackers'] += random_szam
 				user['lastTime'] = time.time()
 				save.save(user) # save the changes
-				await ctx.send("💵 " + str(random_szam) +" Rubelt szereztél!")
+				embed = discord.Embed(title = "💵 " + str(random_szam) +" Rubelt szereztél!", color=0x59ff00)
+				await ctx.send(embed=embed)
 		else:
 			await ctx.send(f"{ctx.author.mention}, várnod kell még {str(int(30-(currentTime-lastTime)))} másodpercet")
 	else:
@@ -392,8 +414,9 @@ async def napi(ctx):
 		if lastTime+43200 <= currentTime:
 			user['smackers'] += 1000
 			user['bonusTime'] = time.time()
-			save.save(user) # save the changes
-			await ctx.send("💵 1000 Rubelt szereztél!")
+			save.save(user) # save the
+			embed = discord.Embed(title = "💵 1000 Rubelt szereztél!", color=0x59ff00)
+			await ctx.send(embed=embed)
 		else:
 			await ctx.send(f"{ctx.author.mention}, várnod kell még {str(int((43200-(currentTime-lastTime)) / 60))} percet")
 	else:
@@ -514,6 +537,7 @@ async def buy(ctx, item):
 		await ctx.send("Nem fizetted ki a hitelt!")
 
 ######################
+
 
 
 
