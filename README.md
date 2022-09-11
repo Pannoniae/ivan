@@ -44,7 +44,7 @@ Feel free to add your name to the contributors if you have somehow contributed t
     </td>
     <td align="center">
       <a href="https://github.com/MesterRetek1">
-        <img src="https://avatars.githubusercontent.com/u/110157961?v=4?s=100" width="100px;" alt=""/><br/>
+        <img src="https://avatars.githubusercontent.com/u/112659636?s=100&v=4" width="100px;" alt=""/><br/>
         <sub><b>Lóránt Horváth</b></sub><br>
       </a>
       Contributor
