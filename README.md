@@ -47,7 +47,7 @@ Feel free to add your name to the contributors if you have somehow contributed t
         <img src="https://avatars.githubusercontent.com/u/112659636?s=100&v=4" width="100px;" alt=""/><br/>
         <sub><b>Lóránt Horváth</b></sub><br>
       </a>
-      Contributor
+      Head Contributor
     </td>
       
   </tr>
