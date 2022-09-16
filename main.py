@@ -131,7 +131,8 @@ async def bug(ctx, *args):
 	await ctx.send("Sikeres hibajelentés!")
 	await dev.send(embed=embed)
 
-@bot.command()
+@bot.command(pass_context=True)
+@commands.has_any_role('Proletárok')
 async def inventory(ctx):
 	user = save.restore(ctx.author.id)
 	inventory = user['items']
@@ -147,8 +148,8 @@ async def inventory(ctx):
 			
 
 
-#párt alapítása
-@bot.command()
+@bot.command(pass_context=True)
+@commands.has_any_role('Tesztelő')
 async def pártalapítás(ctx):
 	author = ctx.message.author
 	user = save.restore(ctx.author.id)
@@ -222,7 +223,8 @@ async def jelentés(ctx, member:discord.Member, *args):
 
 
 
-@bot.command()
+@bot.command(pass_context=True)
+@commands.has_any_role('Tesztelő')
 async def adomány(ctx, value):
 	await ctx.send("Köszönjük, hogy adományoddal segíted a Szovjet űrkutatást, Elvtárs! Még {rubel} kell ahhoz, hogy megelőzhessük a kapitalista Ámeríkaiakat!")
 	
@@ -246,7 +248,8 @@ async def addrub(ctx, amount):
 	await ctx.send("Sikeressen hozzáadtál " + str(amount) + " rubelt a fiókodhoz!")
 
 
-@bot.command()
+@bot.command(pass_context=True)
+@commands.has_any_role('Proletárok')
 async def hitel(ctx, amount=0):
 	author = ctx.message.author
 	if billCash(ctx.author.id) == 0:
@@ -273,7 +276,8 @@ async def hitel(ctx, amount=0):
 		await ctx.send("A tartozásod 10%-a kifizetve erre a hónapra!")
 
 
-@bot.command()
+@bot.command(pass_context=True)
+@commands.has_any_role('Proletárok')
 async def fizetés(ctx, amount, ping:discord.Member):
 	if billCash(ctx.author.id) == 0:
 		for user_mentioned in ctx.message.mentions:
@@ -356,7 +360,8 @@ async def help(ctx):
 
 #### BOT SMACKERS ####
 
-@bot.command()
+@bot.command(pass_context=True)
+@commands.has_any_role('Proletárok')
 async def munka(ctx):
 	if billCash(ctx.author.id) == 0:
 		try:
@@ -399,7 +404,8 @@ async def munka(ctx):
 		await ctx.send("Nem fizetted ki a hitelt!")
 
 
-@bot.command()
+@bot.command(pass_context=True)
+@commands.has_any_role('Proletárok')
 async def napi(ctx):
 	if billCash(ctx.author.id) == 0:
 		if save.checkExist(ctx.author.id):
@@ -422,7 +428,8 @@ async def napi(ctx):
 	else:
 		await ctx.send("Nem fizetted ki a hitelt!")
 
-@bot.command()
+@bot.command(pass_context=True)
+@commands.has_any_role('Proletárok')
 async def leaderboard(ctx):
 	topTen = save.leaderboard()
 	
@@ -435,7 +442,8 @@ async def leaderboard(ctx):
 	await ctx.send(embed=embed)
 
 
-@bot.command()
+@bot.command(pass_context=True)
+@commands.has_any_role('Proletárok')
 async def rubel(ctx):
 	user = save.restore(ctx.author.id)
 	embed = discord.Embed(title=f"{ctx.author.name} számlája", description=f"Rubelek: `{str(user['smackers'])}`")
@@ -453,7 +461,8 @@ itemsrole = ["Igazán proli", "Kulák", "Google Blyat felhasználó", "Trabanton
 
 
 
-@bot.command()
+@bot.command(pass_context=True)
+@commands.has_any_role('Proletárok')
 async def bolt(ctx):
 	user = save.restore(ctx.author.id)
 
@@ -510,7 +519,8 @@ def megvan(id, item):
 		return 0
 
 
-@bot.command()
+@bot.command(pass_context=True)
+@commands.has_any_role('Proletárok')
 async def buy(ctx, item):
 	if billCash(ctx.author.id) == 0:
 		for (a, b, c, d) in zip(itemsname, itemsprice, itemslower, itemsrole):
