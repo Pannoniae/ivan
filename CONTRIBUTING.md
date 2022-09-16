@@ -14,4 +14,4 @@ Once you've finished making changes, you can see at the top of your fork's start
 We'll test and review your code as soon as possible and if applicable, I'll publish your code into production! After the commitment, you shall remove your fork from your profile so if you're going to contribute to this project again, you will begin with an empty paper.
 
 ## Thank you!
-You have successfully contributed to this project! We're very gratefull for you! As our respect, I will add you to our contributors list inside the readme file! If you're inside the Communist Block Discord server, you'll get a medal too for "serving our country"!
+You have successfully contributed to this project! We're very gratefull for you! As our respect, I will add you to our contributors list inside the readme file! If you're inside the Communist Block Developers Discord server, you'll get a medal role too for "serving our country"!
