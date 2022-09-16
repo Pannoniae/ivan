@@ -312,8 +312,9 @@ async def fizetés(ctx, amount, ping:discord.Member):
 async def on_raw_reaction_add(payload):
 	guild = bot.get_guild(payload.guild_id) # Get guild
 	member = get(guild.members, id=payload.user_id) # Get the member out of the guild
-	# The channel ID should be an integer:
-	if payload.channel_id == 978209429528936468: # Only channel where it will work
+	print(payload.message_id)
+	# Lakhatás
+	if payload.message_id == 1015968546305605632: # Only message where it will work
 		if str(payload.emoji) == "✅": # Your emoji
 			role = get(payload.member.guild.roles, id=978207066491588678) # Role ID
 		else:
@@ -321,6 +322,7 @@ async def on_raw_reaction_add(payload):
 		if role is not None: # If role exists
 			await payload.member.add_roles(role)
 			await payload.member.send(f"Megkaptad a lakhatást! ({role} rang)")
+	# Ide jöhet még reakciós rang		
 
 
 
