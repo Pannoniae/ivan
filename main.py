@@ -352,8 +352,9 @@ async def help(ctx):
 	embed.add_field(name="Jelentés", value='`$jelentés <ping> <Jelentés oka>`', inline=False)
 	embed.add_field(name="Rubel küldése", value='`$fizetés <pénzösszeg> <ping, akinek küldöd>`', inline=False)
 	embed.add_field(name="Hiba jelentése", value='`$bug <hiba leírása>` ezzel vagy szerver vagy bot hibát tudsz jelenteni a fejlesztőnek', inline=False)
-	embed.add_field(name="Hitel felvétele", value='`$hitel <összeg>`')
-	embed.add_field(name="Bot tulajdonságok", value='Fenntartó: petyadev#1129 | [Nyílt forráskódú projekt](https://github.com/petertill/ivan) ')
+	embed.add_field(name="Hitel felvétele", value='`$hitel <összeg>`', inline=False)
+	embed.add_field(name="Inventory megtekintése", value='`$inventoty`', inline=False)
+	embed.add_field(name="Bot tulajdonságok", value='Fenntartó: petyadev#1129 | Szeretnél saját Discord botot? [Csinálok neked egyet!](https://www.fiverr.com/petertill/create-a-custom-discord-bot-for-you) ')
 	# then send the embed
 	await ctx.send(embed=embed)
 
