@@ -176,7 +176,7 @@ async def pártalapítás(ctx):
 		await ctx.send("Még nincs meg a megfelelő kezdőtőkéd egy párt megalapításához! (100000 rubel)")
 
 
-
+#ADMIN TOOLS
 
 #börtön parancs
 @bot.command(pass_context=True)
@@ -194,6 +194,18 @@ async def börtön(ctx, member:discord.Member, *args):#idáig műkszik
 	await ctx.send("Sikeres elfogás!")
 	await member.send("Látom börtönbe lettél zárva... Azt ugye tudod, hogy a 3. ilyennél Szibériába kerülsz? Amíg a börtönben szelidűlsz, élvezd ezt a dalt: <https://www.youtube.com/watch?v=Jzm71rlRgPg> :)")
 	print(member)
+
+
+@bot.command(pass_context=True)
+@commands.has_any_role('Vezérkar')
+async def gulag(ctx, member:discord.Member, *args):
+	await member.ban(reason=' '.join(args))
+	channel = bot.get_channel(978620073029804052)
+	embed = discord.Embed(title="Gulag transzportálás", description="Ez az ember egy gyökér... Vesszen a gulágban!")
+	# add fields
+	embed.add_field(name=f"Elítélt: {member} ", value=' '.join(args), inline=False)
+	await channel.send(embed=embed)
+	await ctx.send("Gulágra küldtem, Elvtárs!")
 
 
 @bot.command()
