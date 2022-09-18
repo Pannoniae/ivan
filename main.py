@@ -208,6 +208,41 @@ async def gulag(ctx, member:discord.Member, *args):
 	await ctx.send("Gulágra küldtem, Elvtárs!")
 
 
+@bot.command(pass_context=True)
+@commands.has_any_role('Vezérkar')
+async def addrub(ctx, amount, user:discord.Member):
+	usr = save.createUser(user.id)
+	usr = save.restore(user.id)
+	usr['smackers'] += int(amount)
+	save.save(usr)
+	await ctx.send("Sikeressen hozzáadtál " + str(amount) + " rubelt " + str(user) + " fiókjához!")
+
+@bot.command(pass_context=True)
+@commands.has_any_role('Vezérkar')
+async def delrub(ctx, amount, user:discord.Member):
+	usr = save.createUser(user.id)
+	usr = save.restore(user.id)
+	usr['smackers'] -= int(amount)
+	save.save(usr)
+	await ctx.send("Sikeressen eltávolítottál " + str(amount) + " rubelt " + str(user) + " fiókjából!")
+
+@bot.command(pass_context=True)
+@commands.has_any_role('Vezérkar')
+async def delhitel(ctx, user:discord.Member):
+	usr = save.createUser(user.id)
+	usr = save.restore(user.id)
+	usr['hitel'] = 0
+	save.save(usr)
+	await ctx.send("Sikeresen törölted " + str(user) + " tartozásait!")
+
+@bot.command()
+async def info(ctx):
+	for guild in bot.guilds:
+		await ctx.send(f'Folyamatosan szolgálok {len(guild.members)} hithű proletárt a {guild.name} szerveren. Minden fasza, 13ms válaszidővel futok...')
+
+# ADMIN END
+
+
 @bot.command()
 async def érmedobás(ctx):
 	heads_tails = ['Fej', 'Írás']
@@ -250,14 +285,7 @@ async def mondd(ctx, *args):
 	await ctx.send(' '.join(args), tts=True)
 
 
-@bot.command(pass_context=True)
-@commands.has_any_role('Vezérkar')
-async def addrub(ctx, amount):
-	author = save.createUser(ctx.author.id)
-	author = save.restore(ctx.author.id)
-	author['smackers'] += int(amount)
-	save.save(author)
-	await ctx.send("Sikeressen hozzáadtál " + str(amount) + " rubelt a fiókodhoz!")
+
 
 
 @bot.command(pass_context=True)
@@ -324,7 +352,6 @@ async def fizetés(ctx, amount, ping:discord.Member):
 async def on_raw_reaction_add(payload):
 	guild = bot.get_guild(payload.guild_id) # Get guild
 	member = get(guild.members, id=payload.user_id) # Get the member out of the guild
-	print(payload.message_id)
 	# Lakhatás
 	if payload.message_id == 1015968546305605632: # Only message where it will work
 		if str(payload.emoji) == "✅": # Your emoji
@@ -392,7 +419,7 @@ async def munka(ctx):
 		currentTime = time.time()
 		lastTime = int(user['lastTime'])
 		if lastTime+30 <= currentTime or megvan(ctx.author.id, "trabant"):
-			random_szam = random.randint(20, 70)
+			random_szam = random.randint(100, 170)
 			if avh in ctx.author.roles:
 				szazalek = random_szam * 2
 				user['smackers'] += szazalek
