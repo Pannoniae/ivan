@@ -178,6 +178,17 @@ async def pártalapítás(ctx):
 
 #ADMIN TOOLS
 
+@bot.command(pass_context=True)
+@command.has_any_role('Vezérkar')
+async def üzi(ctx, *args):
+    await ctx.message.delete()
+    for user in ctx.guild.members:
+        try:
+            await user.send(' '.join(args))
+        except:
+            print("Nem sikerült")
+    ctx.send("Üzenet mindenkinek kiküldve")
+
 #börtön parancs
 @bot.command(pass_context=True)
 @commands.has_any_role('Állam Védelmi Hatóság', 'Vezérkar')
